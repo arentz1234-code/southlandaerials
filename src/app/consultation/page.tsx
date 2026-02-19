@@ -1,12 +1,41 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Book a Consultation",
-  description:
-    "Schedule a free consultation to discuss your aerial photography and drone service needs.",
-};
+import { useState } from "react";
 
 export default function ConsultationPage() {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const data: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "consultation", data }),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit");
+
+      setSuccess(true);
+      e.currentTarget.reset();
+    } catch {
+      setError("Failed to submit. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Hero */}
@@ -28,13 +57,33 @@ export default function ConsultationPage() {
           <div className="grid gap-12 lg:grid-cols-2">
             {/* Form */}
             <div>
-              <h2 className="text-2xl">Tell Us About Your Project</h2>
-              <p className="mt-2 text-secondary-600">
-                Fill out the form below and we&apos;ll get back to you within
-                24 hours.
-              </p>
+              {success ? (
+                <div className="rounded-2xl bg-success-50 border border-success-200 p-8 text-center">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success-100">
+                    <svg className="h-8 w-8 text-success-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h2 className="mt-4 text-2xl font-bold text-success-900">Request Received!</h2>
+                  <p className="mt-2 text-success-700">
+                    Thank you for your interest. We&apos;ll contact you within 24 hours to schedule your consultation.
+                  </p>
+                  <button
+                    onClick={() => setSuccess(false)}
+                    className="btn-primary mt-6"
+                  >
+                    Submit Another Request
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <h2 className="text-2xl">Tell Us About Your Project</h2>
+                  <p className="mt-2 text-secondary-600">
+                    Fill out the form below and we&apos;ll get back to you within
+                    24 hours.
+                  </p>
 
-              <form className="mt-8 space-y-6">
+                  <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
                     <label
@@ -179,10 +228,22 @@ export default function ConsultationPage() {
                   />
                 </div>
 
-                <button type="submit" className="btn-primary w-full">
-                  Request Consultation
-                </button>
-              </form>
+                {error && (
+                      <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
+                        {error}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {loading ? "Submitting..." : "Request Consultation"}
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
 
             {/* Benefits */}

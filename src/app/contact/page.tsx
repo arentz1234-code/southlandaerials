@@ -1,12 +1,41 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Contact Us",
-  description:
-    "Get in touch with Southland Aerials for drone photography and aerial services inquiries.",
-};
+import { useState } from "react";
 
 export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const data: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "contact", data }),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit");
+
+      setSuccess(true);
+      e.currentTarget.reset();
+    } catch {
+      setError("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {/* Hero */}
@@ -26,117 +55,147 @@ export default function ContactPage() {
       <section className="section">
         <div className="container-wide">
           <div className="mx-auto max-w-2xl">
-            <form className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2">
+            {success ? (
+              <div className="rounded-2xl bg-success-50 border border-success-200 p-8 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success-100">
+                  <svg className="h-8 w-8 text-success-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 className="mt-4 text-2xl font-bold text-success-900">Message Sent!</h2>
+                <p className="mt-2 text-success-700">
+                  Thank you for reaching out. We&apos;ll get back to you within 24 hours.
+                </p>
+                <button
+                  onClick={() => setSuccess(false)}
+                  className="btn-primary mt-6"
+                >
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="firstName"
+                      className="block text-sm font-medium text-secondary-700"
+                    >
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      required
+                      className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                      placeholder="John"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="lastName"
+                      className="block text-sm font-medium text-secondary-700"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      required
+                      className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                      placeholder="Doe"
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label
-                    htmlFor="firstName"
+                    htmlFor="email"
                     className="block text-sm font-medium text-secondary-700"
                   >
-                    First Name
+                    Email
                   </label>
                   <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
+                    type="email"
+                    id="email"
+                    name="email"
                     required
                     className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                    placeholder="John"
+                    placeholder="john@example.com"
                   />
                 </div>
+
                 <div>
                   <label
-                    htmlFor="lastName"
+                    htmlFor="phone"
                     className="block text-sm font-medium text-secondary-700"
                   >
-                    Last Name
+                    Phone (Optional)
                   </label>
                   <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    required
+                    type="tel"
+                    id="phone"
+                    name="phone"
                     className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                    placeholder="Doe"
+                    placeholder="(555) 123-4567"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-secondary-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                  placeholder="john@example.com"
-                />
-              </div>
+                <div>
+                  <label
+                    htmlFor="subject"
+                    className="block text-sm font-medium text-secondary-700"
+                  >
+                    Subject
+                  </label>
+                  <select
+                    id="subject"
+                    name="subject"
+                    className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                  >
+                    <option value="">Select a topic</option>
+                    <option value="photography">Aerial Photography</option>
+                    <option value="3d-mapping">3D Mapping & Surveying</option>
+                    <option value="inspection">Inspection Services</option>
+                    <option value="pricing">Pricing Question</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
 
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-secondary-700"
-                >
-                  Phone (Optional)
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                  placeholder="(555) 123-4567"
-                />
-              </div>
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-secondary-700"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={6}
+                    required
+                    className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                    placeholder="Tell us about your project..."
+                  />
+                </div>
 
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-secondary-700"
-                >
-                  Subject
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                >
-                  <option value="">Select a topic</option>
-                  <option value="photography">Aerial Photography</option>
-                  <option value="3d-mapping">3D Mapping & Surveying</option>
-                  <option value="inspection">Inspection Services</option>
-                  <option value="pricing">Pricing Question</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
+                {error && (
+                  <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
+                    {error}
+                  </div>
+                )}
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-secondary-700"
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  required
-                  className="mt-2 block w-full rounded-lg border border-secondary-300 px-4 py-3 text-secondary-900 placeholder-secondary-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                  placeholder="Tell us about your project..."
-                />
-              </div>
-
-              <button type="submit" className="btn-primary w-full">
-                Send Message
-              </button>
-            </form>
+                  {loading ? "Sending..." : "Send Message"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
