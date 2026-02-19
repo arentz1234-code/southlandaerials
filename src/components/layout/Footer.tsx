@@ -1,12 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const navigation = {
   services: [
     { name: "Aerial Photography", href: "/investment" },
     { name: "3D Mapping", href: "/investment" },
+    { name: "Video Production", href: "/investment" },
     { name: "Solar Inspection", href: "/investment" },
-    { name: "Construction Sites", href: "/investment" },
   ],
   company: [
     { name: "About Us", href: "/aboutus" },
@@ -44,57 +47,93 @@ const social = [
       </svg>
     ),
   },
+  {
+    name: "YouTube",
+    href: "#",
+    icon: (props: React.SVGProps<SVGSVGElement>) => (
+      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+      </svg>
+    ),
+  },
 ];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-secondary-100 bg-secondary-50">
+    <footer className="bg-secondary-900">
+      {/* Newsletter Section */}
+      <div className="border-b border-white/10">
+        <div className="container-wide py-12 md:py-16">
+          <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
+            <div>
+              <h3 className="text-2xl font-bold text-white">Stay in the loop</h3>
+              <p className="mt-2 text-secondary-400">
+                Get updates on new services, tips, and industry insights.
+              </p>
+            </div>
+            <form className="flex w-full max-w-md gap-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="input flex-1 bg-white/5 border-white/10 text-white placeholder-secondary-500 focus:border-primary-500"
+              />
+              <button type="submit" className="btn-primary whitespace-nowrap">
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer */}
       <div className="container-wide py-12 md:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/">
               <Image
                 src="/images/logo.png"
                 alt="Southland Aerials"
-                width={160}
-                height={40}
-                className="h-10 w-auto"
+                width={180}
+                height={48}
+                className="h-12 w-auto brightness-0 invert"
               />
             </Link>
-            <p className="mt-4 max-w-xs text-sm text-secondary-600">
-              Professional drone photography and videography services for
-              commercial real estate in Alabama and the Southeast.
+            <p className="mt-6 max-w-sm text-secondary-400">
+              Professional drone photography and videography for commercial real
+              estate. Serving Alabama and the Southeast since 2018.
             </p>
-            <div className="mt-6 flex gap-4">
+            <div className="mt-8 flex gap-4">
               {social.map((item) => (
-                <a
+                <motion.a
                   key={item.name}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-secondary-500 transition-colors hover:text-primary-500"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-secondary-400 transition-colors hover:bg-primary-500 hover:text-white"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" />
-                </a>
+                  <item.icon className="h-5 w-5" />
+                </motion.a>
               ))}
             </div>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-sm font-semibold text-secondary-900">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
               Services
-            </h3>
-            <ul className="mt-4 space-y-3">
+            </h4>
+            <ul className="mt-6 space-y-4">
               {navigation.services.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-secondary-600 transition-colors hover:text-primary-500"
+                    className="text-secondary-400 transition-colors hover:text-white"
                   >
                     {item.name}
                   </Link>
@@ -105,15 +144,15 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold text-secondary-900">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
               Company
-            </h3>
-            <ul className="mt-4 space-y-3">
+            </h4>
+            <ul className="mt-6 space-y-4">
               {navigation.company.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-secondary-600 transition-colors hover:text-primary-500"
+                    className="text-secondary-400 transition-colors hover:text-white"
                   >
                     {item.name}
                   </Link>
@@ -124,29 +163,41 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-semibold text-secondary-900">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
               Contact
-            </h3>
-            <ul className="mt-4 space-y-3">
+            </h4>
+            <ul className="mt-6 space-y-4">
               {navigation.contact.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-secondary-600 transition-colors hover:text-primary-500"
+                    className="text-secondary-400 transition-colors hover:text-white"
                   >
                     {item.name}
                   </Link>
                 </li>
               ))}
             </ul>
+            <div className="mt-8">
+              <p className="text-sm text-secondary-500">
+                <span className="block text-white font-medium">Alabama, USA</span>
+                Serving the Southeast
+              </p>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom */}
-        <div className="mt-12 border-t border-secondary-200 pt-8">
-          <p className="text-center text-sm text-secondary-500">
+      {/* Bottom Bar */}
+      <div className="border-t border-white/10">
+        <div className="container-wide flex flex-col items-center justify-between gap-4 py-6 md:flex-row">
+          <p className="text-sm text-secondary-500">
             &copy; {currentYear} Southland Aerials. All rights reserved.
           </p>
+          <div className="flex items-center gap-2 text-sm text-secondary-500">
+            <span className="flex h-2 w-2 rounded-full bg-success-500 animate-pulse" />
+            FAA Part 107 Certified
+          </div>
         </div>
       </div>
     </footer>
