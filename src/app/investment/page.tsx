@@ -228,6 +228,58 @@ export default function InvestmentPage() {
         </div>
       </section>
 
+      {/* 3D Mapping Video Showcase */}
+      <section className="section">
+        <div className="container-wide">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <FadeIn>
+              <span className="badge-primary mb-4">See It In Action</span>
+              <h2>3D Mapping & Modeling</h2>
+              <p className="mt-4 text-lg text-secondary-600">
+                Watch how we create detailed 3D models of properties using advanced drone
+                technology. Our mapping services provide accurate measurements, volume
+                calculations, and CAD-compatible exports.
+              </p>
+              <ul className="mt-6 space-y-3">
+                <li className="flex items-center gap-3">
+                  <svg className="h-5 w-5 text-success-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span className="text-secondary-600">High-accuracy photogrammetry</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="h-5 w-5 text-success-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span className="text-secondary-600">Interactive 3D models</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="h-5 w-5 text-success-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span className="text-secondary-600">Perfect for construction & development</span>
+                </li>
+              </ul>
+              <Link href="/consultation" className="btn-primary mt-8">
+                Get a 3D Model Quote
+              </Link>
+            </FadeIn>
+            <FadeIn direction="left" delay={0.2}>
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-secondary-900 aspect-video">
+                {/* Replace YOUTUBE_VIDEO_ID with your YouTube video ID */}
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                  title="3D Mapping Demo"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
       {/* Advanced Services */}
       <section className="section bg-secondary-50">
         <div className="container-wide">
