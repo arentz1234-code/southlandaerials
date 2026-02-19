@@ -14,6 +14,18 @@ const serviceAreas = [
   { name: "Gulf Shores", state: "AL", primary: false },
 ];
 
+// City positions on the map (approximate lat/long converted to SVG coordinates)
+const cities = [
+  { x: 195, y: 45, name: "Huntsville", label: true },
+  { x: 175, y: 95, name: "Birmingham", label: true },
+  { x: 130, y: 115, name: "Tuscaloosa", label: false },
+  { x: 185, y: 165, name: "Montgomery", label: true },
+  { x: 115, y: 275, name: "Mobile", label: true },
+  { x: 155, y: 295, name: "Gulf Shores", label: false },
+  { x: 175, y: 310, name: "Pensacola", label: false, outside: true },
+  { x: 270, y: 100, name: "Atlanta", label: false, outside: true },
+];
+
 export function ServiceAreas() {
   return (
     <section className="section relative overflow-hidden bg-white">
@@ -21,82 +33,159 @@ export function ServiceAreas() {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Map visualization */}
           <FadeIn direction="right">
-            <div className="relative aspect-square lg:aspect-auto lg:h-full">
+            <div className="relative aspect-square lg:aspect-auto lg:h-full min-h-[400px]">
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary-50 to-accent-50" />
 
-              {/* Simplified map graphic */}
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="relative h-full w-full">
-                  {/* State outline placeholder */}
-                  <svg
-                    viewBox="0 0 400 350"
-                    className="h-full w-full"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              {/* Alabama map */}
+              <div className="absolute inset-0 flex items-center justify-center p-6">
+                <svg
+                  viewBox="0 0 300 340"
+                  className="h-full w-full max-w-[350px]"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {/* Alabama state outline - accurate shape */}
+                  <path
+                    d="M95 20
+                       L230 20
+                       L230 25
+                       L235 25
+                       L235 30
+                       L240 30
+                       L245 35
+                       L245 250
+                       L240 255
+                       L235 260
+                       L230 265
+                       L225 270
+                       L220 275
+                       L180 275
+                       L175 280
+                       L170 285
+                       L165 290
+                       L160 295
+                       L155 300
+                       L140 300
+                       L135 295
+                       L125 295
+                       L115 290
+                       L105 285
+                       L100 280
+                       L95 275
+                       L95 20
+                       Z"
+                    fill="#0ea5e9"
+                    fillOpacity="0.08"
+                    stroke="#0ea5e9"
+                    strokeWidth="2"
+                    className="opacity-60"
+                  />
+
+                  {/* Mobile Bay indent */}
+                  <path
+                    d="M115 290 L125 295 L135 295 L140 300 L130 310 L115 315 L100 310 L95 300 L100 295 L105 290"
+                    fill="#0ea5e9"
+                    fillOpacity="0.05"
+                    stroke="#0ea5e9"
+                    strokeWidth="1.5"
+                    className="opacity-40"
+                  />
+
+                  {/* State label */}
+                  <text
+                    x="165"
+                    y="200"
+                    textAnchor="middle"
+                    className="fill-primary-300 text-[32px] font-bold opacity-30"
                   >
-                    {/* Alabama-like shape */}
-                    <path
-                      d="M100 50 L300 50 L300 80 L320 80 L320 280 L280 320 L100 320 L100 50"
-                      fill="none"
-                      stroke="#0ea5e9"
-                      strokeWidth="2"
-                      strokeDasharray="5 5"
-                      className="opacity-50"
-                    />
+                    AL
+                  </text>
 
-                    {/* Service area dots with pulse */}
-                    {[
-                      { x: 180, y: 100, name: "Birmingham", delay: 0 },
-                      { x: 200, y: 180, name: "Montgomery", delay: 0.2 },
-                      { x: 280, y: 280, name: "Mobile", delay: 0.4 },
-                      { x: 220, y: 60, name: "Huntsville", delay: 0.6 },
-                      { x: 140, y: 140, name: "Tuscaloosa", delay: 0.8 },
-                    ].map((city, i) => (
-                      <g key={city.name}>
-                        <motion.circle
-                          cx={city.x}
-                          cy={city.y}
-                          r="20"
-                          fill="#0ea5e9"
-                          fillOpacity="0.2"
-                          animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.1, 0.2] }}
-                          transition={{ duration: 2, repeat: Infinity, delay: city.delay }}
-                        />
-                        <circle cx={city.x} cy={city.y} r="8" fill="#0ea5e9" />
-                        <circle cx={city.x} cy={city.y} r="4" fill="white" />
-                      </g>
-                    ))}
+                  {/* Neighboring states labels */}
+                  <text x="270" y="60" textAnchor="middle" className="fill-secondary-300 text-[14px] font-medium">
+                    GA
+                  </text>
+                  <text x="50" y="150" textAnchor="middle" className="fill-secondary-300 text-[14px] font-medium">
+                    MS
+                  </text>
+                  <text x="165" y="335" textAnchor="middle" className="fill-secondary-300 text-[14px] font-medium">
+                    FL
+                  </text>
+                  <text x="165" y="12" textAnchor="middle" className="fill-secondary-300 text-[14px] font-medium">
+                    TN
+                  </text>
 
-                    {/* Connection lines */}
-                    <path
-                      d="M180 100 L200 180 M200 180 L280 280 M180 100 L220 60 M180 100 L140 140"
-                      stroke="#0ea5e9"
-                      strokeWidth="1"
-                      strokeDasharray="4 4"
-                      className="opacity-30"
-                    />
-                  </svg>
+                  {/* Connection lines between cities */}
+                  <path
+                    d="M195 45 L175 95 M175 95 L185 165 M185 165 L115 275 M175 95 L130 115 M115 275 L155 295"
+                    stroke="#0ea5e9"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                    className="opacity-30"
+                  />
 
-                  {/* Drone flight path animation */}
-                  <motion.div
-                    className="absolute"
-                    animate={{
-                      x: [50, 200, 150, 250, 50],
-                      y: [50, 100, 200, 150, 50],
-                    }}
-                    transition={{
-                      duration: 15,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-500 shadow-lg">
-                      <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                      </svg>
-                    </div>
-                  </motion.div>
-                </div>
+                  {/* City markers */}
+                  {cities.map((city, i) => (
+                    <g key={city.name}>
+                      {/* Pulse animation ring */}
+                      <motion.circle
+                        cx={city.x}
+                        cy={city.y}
+                        r="15"
+                        fill="#0ea5e9"
+                        fillOpacity="0.2"
+                        animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.1, 0.3] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
+                        style={{ transformOrigin: `${city.x}px ${city.y}px` }}
+                      />
+                      {/* Main dot */}
+                      <circle
+                        cx={city.x}
+                        cy={city.y}
+                        r={city.outside ? "5" : "7"}
+                        fill={city.outside ? "#94a3b8" : "#0ea5e9"}
+                      />
+                      {/* Inner dot */}
+                      <circle
+                        cx={city.x}
+                        cy={city.y}
+                        r={city.outside ? "2" : "3"}
+                        fill="white"
+                      />
+                      {/* City label */}
+                      {city.label && (
+                        <text
+                          x={city.x + 12}
+                          y={city.y + 4}
+                          className="fill-secondary-600 text-[11px] font-medium"
+                        >
+                          {city.name}
+                        </text>
+                      )}
+                    </g>
+                  ))}
+                </svg>
+
+                {/* Animated drone */}
+                <motion.div
+                  className="absolute"
+                  style={{ left: "20%", top: "20%" }}
+                  animate={{
+                    x: [0, 80, 40, 100, 0],
+                    y: [0, 40, 120, 80, 0],
+                  }}
+                  transition={{
+                    duration: 12,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-500 shadow-lg shadow-accent-500/30">
+                    <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </FadeIn>

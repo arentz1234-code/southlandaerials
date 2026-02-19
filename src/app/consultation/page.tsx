@@ -308,7 +308,7 @@ export default function ConsultationPage() {
                           d="M4.5 12.75l6 6 9-13.5"
                         />
                       </svg>
-                      500+ Projects Completed
+                      Southeast Coverage
                     </li>
                   </ul>
                 </div>

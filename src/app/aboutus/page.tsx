@@ -8,8 +8,6 @@ import { DroneGraphic } from "@/components/ui/DroneGraphic";
 
 const stats = [
   { value: 5, suffix: "+", label: "Years in Business" },
-  { value: 500, suffix: "+", label: "Projects Completed" },
-  { value: 50, suffix: "+", label: "Happy Clients" },
   { value: 100, suffix: "%", label: "FAA Certified" },
 ];
 
@@ -78,8 +76,8 @@ const timeline = [
   },
   {
     year: "2023",
-    title: "500+ Projects",
-    description: "Celebrated completing over 500 commercial aerial photography projects.",
+    title: "Statewide Coverage",
+    description: "Achieved full coverage across Alabama with rapid response times for all major cities.",
   },
   {
     year: "2024",
@@ -121,12 +119,12 @@ export default function AboutUsPage() {
       <section className="relative -mt-16 z-20">
         <div className="container-wide">
           <FadeIn>
-            <div className="grid gap-6 rounded-2xl bg-white p-8 shadow-xl sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 rounded-2xl bg-white p-8 shadow-xl sm:grid-cols-2">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
                   className={`text-center ${
-                    index !== stats.length - 1 ? "lg:border-r lg:border-secondary-100" : ""
+                    index !== stats.length - 1 ? "sm:border-r sm:border-secondary-100" : ""
                   }`}
                 >
                   <div className="text-4xl font-bold text-primary-600 md:text-5xl">
@@ -162,7 +160,7 @@ export default function AboutUsPage() {
                   the Southeast.
                 </p>
                 <p>
-                  With over 5 years of experience and 500+ completed projects, we
+                  With over 5 years of experience serving Alabama and the Southeast, we
                   bring the expertise, equipment, and dedication needed to capture
                   your property at its absolute best.
                 </p>
