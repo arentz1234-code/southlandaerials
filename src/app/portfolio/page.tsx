@@ -1,94 +1,36 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/FadeIn";
-
-const categories = [
-  { id: "all", name: "All Projects" },
-  { id: "retail", name: "Retail" },
-  { id: "industrial", name: "Industrial" },
-  { id: "commercial", name: "Commercial" },
-  { id: "land", name: "Land" },
-];
+import { motion } from "framer-motion";
+import { FadeIn } from "@/components/ui/FadeIn";
 
 const portfolioItems = [
   {
     id: 1,
     title: "College Town Retail Center",
-    category: "retail",
-    description: "Comprehensive aerial coverage of retail center with parking",
-    stats: "Aerial View",
+    location: "Alabama",
+    description: "Comprehensive aerial coverage of multi-tenant retail center showcasing parking, building layout, and surrounding area for property marketing.",
     image: "/images/portfolio/college-town-aerial.jpg",
+    featured: true,
   },
   {
     id: 2,
-    title: "Drone Image Markup",
-    category: "commercial",
-    description: "Professional markup and annotation for property analysis",
-    stats: "Markup Example",
+    title: "Commercial Property Analysis",
+    location: "Southeast Region",
+    description: "Professional drone image markup for property analysis, tenant identification, and site planning documentation.",
     image: "/images/portfolio/drone-markup-example.png",
   },
   {
     id: 3,
-    title: "Commercial Property Aerial",
-    category: "commercial",
-    description: "High-quality aerial photography for commercial properties",
-    stats: "Aerial Shot",
+    title: "Commercial Development",
+    location: "Alabama",
+    description: "High-altitude aerial photography capturing commercial property development with surrounding infrastructure and access points.",
     image: "/images/portfolio/aerial-property-view.png",
-  },
-  {
-    id: 4,
-    title: "Huntsville Tech Campus",
-    category: "commercial",
-    description: "Multi-building tech campus documentation",
-    stats: "8 buildings",
-    gradient: "from-indigo-600 to-blue-500",
-  },
-  {
-    id: 5,
-    title: "Tuscaloosa Retail Center",
-    category: "retail",
-    description: "Strip mall and parking lot aerial views",
-    stats: "45,000 sq ft",
-    gradient: "from-rose-600 to-pink-500",
-  },
-  {
-    id: 6,
-    title: "Gulf Shores Development",
-    category: "land",
-    description: "Coastal land survey and mapping project",
-    stats: "45 acres",
-    gradient: "from-emerald-600 to-teal-500",
-  },
-  {
-    id: 7,
-    title: "Prattville Distribution Center",
-    category: "industrial",
-    description: "Large-scale warehouse and logistics facility",
-    stats: "500,000 sq ft",
-    gradient: "from-amber-600 to-orange-500",
-  },
-  {
-    id: 8,
-    title: "Dothan Medical Complex",
-    category: "commercial",
-    description: "Medical office park aerial documentation",
-    stats: "5 buildings",
-    gradient: "from-cyan-600 to-blue-500",
   },
 ];
 
 export default function PortfolioPage() {
-  const [activeCategory, setActiveCategory] = useState("all");
-
-  const filteredItems =
-    activeCategory === "all"
-      ? portfolioItems
-      : portfolioItems.filter((item) => item.category === activeCategory);
-
   return (
     <>
       {/* Hero */}
@@ -98,124 +40,129 @@ export default function PortfolioPage() {
             <span className="badge bg-white/10 text-primary-300 mb-4">Our Work</span>
             <h1 className="text-white">Portfolio</h1>
             <p className="mt-6 text-lg text-secondary-300 md:text-xl">
-              Explore our collection of aerial photography projects showcasing
-              commercial properties across the Southeast.
+              Professional aerial photography showcasing commercial properties
+              across Alabama and the Southeast.
             </p>
           </FadeIn>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
-      {/* Portfolio Grid */}
+      {/* Featured Project */}
       <section className="section-sm">
         <div className="container-wide">
-          {/* Category Filter */}
           <FadeIn>
-            <div className="mb-12 flex flex-wrap justify-center gap-2">
-              {categories.map((category) => (
-                <motion.button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all ${
-                    activeCategory === category.id
-                      ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25"
-                      : "bg-secondary-100 text-secondary-600 hover:bg-secondary-200"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {category.name}
-                </motion.button>
-              ))}
+            <div className="group relative overflow-hidden rounded-3xl">
+              <div className="relative aspect-[21/9] md:aspect-[21/7]">
+                <Image
+                  src={portfolioItems[0].image}
+                  alt={portfolioItems[0].title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="100vw"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+                <div className="absolute inset-0 flex items-center">
+                  <div className="p-8 md:p-12 lg:p-16 max-w-2xl">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-primary-500 px-4 py-1.5 text-sm font-semibold text-white">
+                      <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
+                      </svg>
+                      Featured Project
+                    </span>
+                    <h2 className="mt-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+                      {portfolioItems[0].title}
+                    </h2>
+                    <p className="mt-3 text-white/80 text-lg hidden sm:block">
+                      {portfolioItems[0].description}
+                    </p>
+                    <div className="mt-4 flex items-center gap-2 text-white/60">
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <span>{portfolioItems[0].location}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </FadeIn>
+        </div>
+      </section>
 
-          {/* Grid */}
-          <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <AnimatePresence mode="popLayout">
-              {filteredItems.map((item) => (
+      {/* Other Projects */}
+      <section className="section-sm pt-0">
+        <div className="container-wide">
+          <div className="grid gap-8 md:grid-cols-2">
+            {portfolioItems.slice(1).map((item, index) => (
+              <FadeIn key={item.id} delay={index * 0.1}>
                 <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  className="group cursor-pointer"
+                  className="group relative overflow-hidden rounded-2xl"
+                  whileHover={{ y: -8 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-                    {/* Image or gradient background */}
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      />
-                    ) : (
-                      <>
-                        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
-                        {/* Pattern overlay */}
-                        <div className="absolute inset-0 opacity-20">
-                          <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <defs>
-                              <pattern id={`grid-${item.id}`} width="10" height="10" patternUnits="userSpaceOnUse">
-                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5" />
-                              </pattern>
-                            </defs>
-                            <rect width="100" height="100" fill={`url(#grid-${item.id})`} />
-                          </svg>
-                        </div>
-                        {/* Placeholder icon */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-30 transition-opacity group-hover:opacity-40">
-                          <svg className="h-20 w-20 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={0.5} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                          </svg>
-                        </div>
-                      </>
-                    )}
-
-                    {/* Dark overlay for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/30" />
-
-                    {/* Content */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6">
-                      <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        className="translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
-                      >
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                          {item.stats}
-                        </span>
-                      </motion.div>
-                      <span className="mt-3 text-xs font-semibold uppercase tracking-wider text-white/70">
-                        {categories.find((c) => c.id === item.category)?.name}
-                      </span>
-                      <h3 className="mt-1 text-xl font-bold text-white">{item.title}</h3>
-                      <p className="mt-2 text-sm text-white/70 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
+                      <div className="flex items-center gap-2 text-white/60 text-sm">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>{item.location}</span>
+                      </div>
+                      <h3 className="mt-2 text-2xl md:text-3xl font-bold text-white">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 text-white/70 line-clamp-2">
                         {item.description}
                       </p>
                     </div>
-
-                    {/* View button */}
-                    <div className="absolute right-4 top-4 scale-0 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-                        <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </div>
-                    </div>
                   </div>
                 </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Highlight */}
+      <section className="section bg-secondary-50">
+        <div className="container-wide">
+          <FadeIn className="text-center mb-12">
+            <h2>What We Capture</h2>
+            <p className="mt-4 text-secondary-500 max-w-2xl mx-auto">
+              From retail centers to industrial complexes, we provide comprehensive aerial coverage for all commercial property types.
+            </p>
+          </FadeIn>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { name: "Retail Centers", icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
+              { name: "Industrial Sites", icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" },
+              { name: "Land & Development", icon: "M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" },
+              { name: "Construction Progress", icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" },
+            ].map((service, i) => (
+              <FadeIn key={service.name} delay={i * 0.1}>
+                <div className="rounded-xl bg-white p-6 text-center shadow-card">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
+                    <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={service.icon} />
+                    </svg>
+                  </div>
+                  <h3 className="mt-4 font-semibold text-secondary-900">{service.name}</h3>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </section>
 
