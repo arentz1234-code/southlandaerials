@@ -116,27 +116,27 @@ export default function AdminDashboard() {
       {/* Header */}
       <header className="bg-white border-b border-secondary-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <h1 className="text-xl font-bold text-secondary-900">
-                Southland Aerials Admin
+          <div className="flex items-center justify-between h-16 gap-4">
+            <div className="flex items-center gap-2 min-w-0">
+              <h1 className="text-lg sm:text-xl font-bold text-secondary-900 truncate">
+                Admin Panel
               </h1>
               {unreadCount > 0 && (
-                <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                  {unreadCount} new
+                <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700 flex-shrink-0">
+                  {unreadCount}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
               <a
                 href="/"
-                className="text-sm text-secondary-500 hover:text-secondary-700"
+                className="text-sm text-secondary-500 hover:text-secondary-700 hidden sm:block"
               >
-                View Site →
+                View Site
               </a>
               <button
                 onClick={handleLogout}
-                className="text-sm text-red-600 hover:text-red-700 font-medium"
+                className="text-sm text-red-600 hover:text-red-700 font-medium px-3 py-1.5 rounded-lg hover:bg-red-50"
               >
                 Logout
               </button>
