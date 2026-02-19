@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn, FadeInStagger, FadeInStaggerItem } from "@/components/ui/FadeIn";
@@ -16,27 +17,27 @@ const categories = [
 const portfolioItems = [
   {
     id: 1,
-    title: "Birmingham Shopping Plaza",
+    title: "College Town Retail Center",
     category: "retail",
-    description: "Comprehensive aerial coverage of 150,000 sq ft retail center",
-    stats: "150,000 sq ft",
-    gradient: "from-blue-600 to-cyan-500",
+    description: "Comprehensive aerial coverage of retail center with parking",
+    stats: "Aerial View",
+    image: "/images/portfolio/college-town-aerial.jpg",
   },
   {
     id: 2,
-    title: "Montgomery Industrial Park",
-    category: "industrial",
-    description: "Drone mapping and photography for industrial complex",
-    stats: "12 acres",
-    gradient: "from-slate-700 to-slate-500",
+    title: "Drone Image Markup",
+    category: "commercial",
+    description: "Professional markup and annotation for property analysis",
+    stats: "Markup Example",
+    image: "/images/portfolio/drone-markup-example.png",
   },
   {
     id: 3,
-    title: "Mobile Office Tower",
+    title: "Commercial Property Aerial",
     category: "commercial",
-    description: "High-rise commercial property aerial photography",
-    stats: "25 floors",
-    gradient: "from-violet-600 to-purple-500",
+    description: "High-quality aerial photography for commercial properties",
+    stats: "Aerial Shot",
+    image: "/images/portfolio/aerial-property-view.png",
   },
   {
     id: 4,
@@ -143,27 +144,40 @@ export default function PortfolioPage() {
                   className="group cursor-pointer"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-                    {/* Gradient background */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
+                    {/* Image or gradient background */}
+                    {item.image ? (
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    ) : (
+                      <>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
+                        {/* Pattern overlay */}
+                        <div className="absolute inset-0 opacity-20">
+                          <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <defs>
+                              <pattern id={`grid-${item.id}`} width="10" height="10" patternUnits="userSpaceOnUse">
+                                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5" />
+                              </pattern>
+                            </defs>
+                            <rect width="100" height="100" fill={`url(#grid-${item.id})`} />
+                          </svg>
+                        </div>
+                        {/* Placeholder icon */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-30 transition-opacity group-hover:opacity-40">
+                          <svg className="h-20 w-20 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={0.5} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                          </svg>
+                        </div>
+                      </>
+                    )}
 
-                    {/* Pattern overlay */}
-                    <div className="absolute inset-0 opacity-20">
-                      <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <defs>
-                          <pattern id={`grid-${item.id}`} width="10" height="10" patternUnits="userSpaceOnUse">
-                            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5" />
-                          </pattern>
-                        </defs>
-                        <rect width="100" height="100" fill={`url(#grid-${item.id})`} />
-                      </svg>
-                    </div>
-
-                    {/* Placeholder icon */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-30 transition-opacity group-hover:opacity-40">
-                      <svg className="h-20 w-20 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={0.5} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                      </svg>
-                    </div>
+                    {/* Dark overlay for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/30" />
