@@ -13,16 +13,22 @@ export async function GET(
   }
 
   const { id } = await params;
-  const submission = getSubmissionById(id);
 
-  if (!submission) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  try {
+    const submission = await getSubmissionById(id);
+
+    if (!submission) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
+    // Mark as read when viewed
+    await markAsRead(id);
+
+    return NextResponse.json(submission);
+  } catch (error) {
+    console.error('Get submission error:', error);
+    return NextResponse.json({ error: 'Failed to get submission' }, { status: 500 });
   }
-
-  // Mark as read when viewed
-  markAsRead(id);
-
-  return NextResponse.json(submission);
 }
 
 // PATCH - Mark as read
@@ -36,13 +42,19 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  const success = markAsRead(id);
 
-  if (!success) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  try {
+    const success = await markAsRead(id);
+
+    if (!success) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Mark as read error:', error);
+    return NextResponse.json({ error: 'Failed to update' }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true });
 }
 
 // DELETE - Delete submission
@@ -56,11 +68,17 @@ export async function DELETE(
   }
 
   const { id } = await params;
-  const success = deleteSubmission(id);
 
-  if (!success) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  try {
+    const success = await deleteSubmission(id);
+
+    if (!success) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Delete submission error:', error);
+    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true });
 }

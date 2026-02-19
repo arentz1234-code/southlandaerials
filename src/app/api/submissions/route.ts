@@ -15,14 +15,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const submission = addSubmission(type, data);
+    const submission = await addSubmission(type, data);
 
     return NextResponse.json({
       success: true,
       message: 'Submission received',
       id: submission.id,
     });
-  } catch {
+  } catch (error) {
+    console.error('Submission error:', error);
     return NextResponse.json(
       { error: 'Failed to process submission' },
       { status: 500 }
@@ -41,12 +42,20 @@ export async function GET() {
     );
   }
 
-  const submissions = getSubmissions();
-  const unreadCount = getUnreadCount();
+  try {
+    const submissions = await getSubmissions();
+    const unreadCount = await getUnreadCount();
 
-  return NextResponse.json({
-    submissions,
-    unreadCount,
-    total: submissions.length,
-  });
+    return NextResponse.json({
+      submissions,
+      unreadCount,
+      total: submissions.length,
+    });
+  } catch (error) {
+    console.error('Get submissions error:', error);
+    return NextResponse.json(
+      { error: 'Failed to get submissions' },
+      { status: 500 }
+    );
+  }
 }
